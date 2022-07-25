@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class WebAvatarLoader : MonoBehaviour
 {
+
     private GameObject avatar;
     private string AvatarURL = "";
     private AvatarLoader avatarLoader;
@@ -34,6 +35,8 @@ public class WebAvatarLoader : MonoBehaviour
     private void OnAvatarLoaded(GameObject avatar, AvatarMetaData metaData)
     {
         this.avatar = avatar;
+        gameObject.GetComponent<AnimatorControllingScript>().avatar = avatar;
+        gameObject.GetComponent<AnimatorControllingScript>().isAvatarLoaded = true;
         Debug.Log($"Avatar loaded. [{Time.timeSinceLevelLoad:F2}]\n\n{metaData}");
     }
 }
