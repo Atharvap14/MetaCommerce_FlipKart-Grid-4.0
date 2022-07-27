@@ -1,5 +1,6 @@
 using ReadyPlayerMe;
 using UnityEngine;
+using Photon.Pun;
 
 public class WebAvatarLoader : MonoBehaviour
 {
@@ -7,17 +8,39 @@ public class WebAvatarLoader : MonoBehaviour
     private GameObject avatar;
     private string AvatarURL = "";
     private AvatarLoader avatarLoader;
+    public PhotonView view;
 
     private void Start()
     {
-        PartnerSO partner = Resources.Load<PartnerSO>("Partner");
-        WebInterface.SetupRpmFrame(partner.Subdomain);
+        
         avatarLoader = new AvatarLoader();
+        view = GetComponent<PhotonView>();
     }
-    
+    [PunRPC]
+    public void recieveAvatar(string hash)
+    {
+        var array_inputstrings = hash.Split(',');
+        string actor_s=array_inputstrings[0];
+        string avatarurl=array_inputstrings[1];
+        if (actor_s.CompareTo(view.OwnerActorNr.ToString()) == 0 && (!view.IsMine))
+        {
+            Debug.Log("Avatar3 @ " + avatarurl);
+            LoadAvatar(avatarurl); 
+        }
+    }
     public void OnWebViewAvatarGenerated(string avatarUrl)
     {
-        LoadAvatar(avatarUrl);
+        Debug.Log("Avatar2 @ " + avatarUrl);
+        if (view.IsMine)
+        {
+            Debug.LogError("ISMINE");
+            string hash = view.OwnerActorNr.ToString() + "," + avatarUrl;
+
+            gameObject.GetComponent<FPSMovement>().enabled = false;
+            view.RPC("recieveAvatar",RpcTarget.OthersBuffered,hash);
+            LoadAvatar(avatarUrl);
+        }
+
     }
     
     public void LoadAvatar(string avatarUrl)
@@ -34,7 +57,12 @@ public class WebAvatarLoader : MonoBehaviour
 
     private void OnAvatarLoaded(GameObject avatar, AvatarMetaData metaData)
     {
+        
         this.avatar = avatar;
+        this.avatar.transform.SetParent(gameObject.transform,true);
+        this.avatar.transform.localPosition = new Vector3(0, 0, 0);
+        this.avatar.transform.localRotation = Quaternion.identity;
+        gameObject.GetComponent<FPSMovement>().enabled = true;
         gameObject.GetComponent<AnimatorControllingScript>().avatar = avatar;
         gameObject.GetComponent<AnimatorControllingScript>().isAvatarLoaded = true;
         Debug.Log($"Avatar loaded. [{Time.timeSinceLevelLoad:F2}]\n\n{metaData}");

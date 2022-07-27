@@ -6,7 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/WebGLExample.unity
-    guid: 53a55d5c5f7a9954bb9d24bf86582a81
+    path: Assets/Scenes/Loading Scene.unity
+    guid: 1e192f7623b8d8149882ad49040a7bdc
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: b5014b56e7fe1c841acc9f9825be634e
+  - enabled: 1
+    path: Assets/Scenes/RPMPUN.unity
+    guid: d9f80892c1dd4524b82d5b97cc689e05
   m_configObjects:
     WebXR.Settings: {fileID: 11400000, guid: c704c41801b53714297b25d313204160, type: 2}

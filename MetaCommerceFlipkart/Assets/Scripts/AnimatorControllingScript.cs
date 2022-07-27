@@ -1,21 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class AnimatorControllingScript : MonoBehaviour
 {
     public GameObject avatar;
+    private PhotonView view;
     public bool isAvatarLoaded = false;
     // Start is called before the first frame update
     void Start()
     {
+        view = GetComponent<PhotonView>();
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isAvatarLoaded)
+        if (isAvatarLoaded && view.IsMine)
         {
             if (Input.GetKey("w"))
             {
