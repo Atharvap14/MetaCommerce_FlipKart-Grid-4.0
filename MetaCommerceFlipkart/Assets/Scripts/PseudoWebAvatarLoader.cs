@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PseudoWebAvatarLoader : MonoBehaviour
 {
-    public void Start()
+    public void Awake()
     {
         PartnerSO partner = Resources.Load<PartnerSO>("Partner");
         WebInterface.SetupRpmFrame(partner.Subdomain);

@@ -20,14 +20,51 @@ public class AnimatorControllingScript : MonoBehaviour
     {
         if (isAvatarLoaded && view.IsMine)
         {
-            if (Input.GetKey("w"))
+            if (Input.GetKey("a") || Input.GetKey(KeyCode.LeftArrow))
             {
-                avatar.GetComponent<Animator>().SetBool("isWalking",true);
-                print("W Pressed");
+                avatar.GetComponent<Animator>().SetBool("isLStrafing",true);
+
+                
+            }
+            else
+            {
+                avatar.GetComponent<Animator>().SetBool("isLStrafing", false);
+
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) )
+            {
+                avatar.GetComponent<Animator>().SetTrigger("Jump");
+
+
+            }
+           
+            if (Input.GetKey("d") || Input.GetKey(KeyCode.RightArrow))
+            {
+                avatar.GetComponent<Animator>().SetBool("isRStrafing", true);
+            }
+            else
+            {
+                avatar.GetComponent<Animator>().SetBool("isRStrafing", false);
+            }
+            if (Input.GetKey("w") || Input.GetKey(KeyCode.UpArrow))
+            {
+                avatar.GetComponent<Animator>().SetBool("isWalking", true);
+                print("W pressed");
+
             }
             else
             {
                 avatar.GetComponent<Animator>().SetBool("isWalking", false);
+            }
+            if (Input.GetKey("s") || Input.GetKey(KeyCode.DownArrow))
+            {
+                print("DownArrow");
+                avatar.GetComponent<Animator>().SetBool("isBackwards", true);
+            }
+            else
+            {
+                avatar.GetComponent<Animator>().SetBool("isBackwards", false);
             }
 
             if (Input.GetKey("t"))

@@ -15,15 +15,18 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         PhotonNetwork.CreateRoom(createInput.text);
+       
     }
 
     public void JoinRoom()
     {
         PhotonNetwork.JoinRoom(joinInput.text);
+       
     }
 
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("RPMPUN");
+        PhotonNetwork.LoadLevel("ShoppingSpace");
+        DemoCanvas.OnCreateAvatar();
     }
 }

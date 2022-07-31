@@ -9,12 +9,19 @@ public class WebAvatarLoader : MonoBehaviour
     private string AvatarURL = "";
     private AvatarLoader avatarLoader;
     public PhotonView view;
+    
 
     private void Start()
     {
         
         avatarLoader = new AvatarLoader();
         view = GetComponent<PhotonView>();
+        if (view.IsMine)
+        {
+            Tag.player = gameObject.transform;
+            var scenemanager = GameObject.Find("SceneManager");
+            scenemanager.GetComponent<SceneChange>().avatarobject = gameObject;
+        }
     }
     [PunRPC]
     public void recieveAvatar(string hash)
@@ -33,7 +40,7 @@ public class WebAvatarLoader : MonoBehaviour
         Debug.Log("Avatar2 @ " + avatarUrl);
         if (view.IsMine)
         {
-            Debug.LogError("ISMINE");
+            
             string hash = view.OwnerActorNr.ToString() + "," + avatarUrl;
 
             gameObject.GetComponent<FPSMovement>().enabled = false;
@@ -59,6 +66,8 @@ public class WebAvatarLoader : MonoBehaviour
     {
         
         this.avatar = avatar;
+        var anim= this.avatar.AddComponent<PhotonAnimatorView>();
+       
         this.avatar.transform.SetParent(gameObject.transform,true);
         this.avatar.transform.localPosition = new Vector3(0, 0, 0);
         this.avatar.transform.localRotation = Quaternion.identity;
